@@ -14,18 +14,9 @@ export default function LoginPage() {
   const handleLogin = async () => {
     setIsLoadingAuth(true)
     try {
-      const response: AuthenticationResult = await instance.loginPopup({
-        ...loginRequest,
-        redirectUri: '/redirect.html',
-      });
-      console.log('res: ', response);
-      if (response.account) {
-        instance.setActiveAccount(response.account);
-      }
+      await instance.loginRedirect(loginRequest);
     } catch (error) {
       console.log("Login Failed", error);
-
-    } finally {
       setIsLoadingAuth(false);
     }
   }
