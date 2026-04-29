@@ -1,128 +1,143 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { Shield, FileText, Cpu, ChevronRight, Info } from 'lucide-react'
+import { Shield, FileText, Cpu, ChevronRight, AlertCircle, ShieldCheck } from 'lucide-react'
+import { Spinner } from '@/components/ui/spinner'
 
-export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState(false)
+export default function LoginPage({ onLoginSuccess }) {
+  const [isLoadingAuth, setIsLoadingAuth] = useState(false)
 
-  const handleMicrosoftSignIn = () => {
-    setIsLoading(true)
-    // Microsoft Entra ID SSO — wire up MSAL here
-    setTimeout(() => setIsLoading(false), 2000)
+  const handleLogin = () => {
+    setIsLoadingAuth(true)
+    // Simulate authentication delay
+    setTimeout(() => {
+      setIsLoadingAuth(false)
+      if (onLoginSuccess) {
+        onLoginSuccess()
+      }
+    }, 1500)
   }
 
   return (
-    <div className="login-root">
-      {/* ─── Left panel ─────────────────────────────────── */}
-      <div className="login-left">
-        {/* Brand */}
-        <div className="login-brand">
-          <div className="login-brand-icon">
-            <FileText size={20} />
+    <div className="min-h-screen bg-white flex flex-col lg:flex-row overflow-hidden font-sans">
+      {/* ─── Left Pane (Visual & Branding) ───────────────── */}
+      <div className="hidden lg:flex lg:w-3/5 relative overflow-hidden bg-slate-900">
+        <div className="absolute inset-0 z-0 opacity-40">
+          <img
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2070"
+            className="w-full h-full object-cover scale-105"
+            alt="Architecture"
+          />
+        </div>
+        <div className="absolute inset-0 z-10 bg-gradient-to-tr from-slate-900 via-slate-900/80 to-transparent"></div>
+
+        <div className="relative z-20 flex flex-col justify-between h-full p-16 w-full">
+          <div className="flex items-center gap-3">
+            <div className="bg-blue-600 p-2.5 rounded-xl shadow-lg shadow-blue-900/20">
+              <FileText className="text-white" size={28} />
+            </div>
+            <span className="text-2xl font-black text-white tracking-tighter uppercase">AI PPM Analysis Platform</span>
           </div>
-          <span className="login-brand-name">AI PPM ANALYSIS PLATFORM</span>
-        </div>
 
-        {/* Hero */}
-        <div className="login-hero">
-          <h1 className="login-hero-title">
-            Redefining PPM
-            <br />
-            <span className="login-hero-accent">Intelligence.</span>
-          </h1>
-          <p className="login-hero-subtitle">
-            Harness the power of AI to extract, summarize, and visualize
-            unstructured deal data into structured formats.
-          </p>
+          <div className="max-w-xl">
+            <h1 className="text-6xl font-black text-white leading-none mb-6">
+              Redefining PPM <br />
+              <span className="text-blue-500 underline decoration-4 underline-offset-8">Intelligence.</span>
+            </h1>
+            <p className="text-xl text-slate-300 font-medium leading-relaxed mb-8">
+              Harness the power of AI to extract, summarize, and visualize unstructured deal data into structured formats.
+            </p>
 
-          {/* Feature pills */}
-          <div className="login-features">
-            <div className="login-feature-item">
-              <Cpu size={16} className="login-feature-icon" />
-              <span>AUTOMATED EXTRACTION</span>
-            </div>
-            <div className="login-feature-item">
-              <Shield size={16} className="login-feature-icon" />
-              <span>MICROSOFT ENTRA ID AUTHENTICATED</span>
+            <div className="grid grid-cols-2 gap-8">
+              <div className="flex gap-4 items-start">
+                <div className="p-2 bg-slate-800/50 rounded-lg text-blue-400">
+                  <Cpu size={20} />
+                </div>
+                <div>
+                  <h4 className="text-white font-black text-sm uppercase tracking-tight">Automated Extraction</h4>
+                </div>
+              </div>
+              <div className="flex gap-4 items-start">
+                <div className="p-2 bg-slate-800/50 rounded-lg text-blue-400">
+                  <ShieldCheck size={20} />
+                </div>
+                <div>
+                  <h4 className="text-white font-bold text-sm uppercase tracking-tight">Microsoft Entra ID authenticated</h4>
+                </div>
+              </div>
             </div>
           </div>
+
+          <div className="flex items-center gap-6 text-slate-500 text-xs font-bold uppercase tracking-[0.2em]">
+            <span>Architecture</span>
+            <span className="w-8 h-[1px] bg-slate-700"></span>
+            <span>Intelligence</span>
+            <span className="w-8 h-[1px] bg-slate-700"></span>
+            <span>Efficiency</span>
+          </div>
         </div>
-
-        {/* Bottom nav */}
-        <div className="login-bottom-nav">
-          {['ARCHITECTURE', 'INTELLIGENCE', 'EFFICIENCY'].map((item, i) => (
-            <div key={item} className="login-bottom-nav-item">
-              <span>{item}</span>
-              {i < 2 && <div className="login-bottom-nav-divider" />}
-            </div>
-          ))}
-        </div>
-
-        {/* Animated grid overlay */}
-        <div className="login-grid-overlay" aria-hidden="true" />
-
-        {/* Glow blobs */}
-        <div className="login-glow-1" aria-hidden="true" />
-        <div className="login-glow-2" aria-hidden="true" />
       </div>
 
-      {/* ─── Right panel ────────────────────────────────── */}
-      <div className="login-right">
-        <Card className="login-card">
-          <CardHeader className="login-card-header">
-            <CardTitle className="login-card-title">Welcome back.</CardTitle>
-            <CardDescription className="login-card-desc">
-              Access your institutional deal intelligence platform.
-            </CardDescription>
-          </CardHeader>
+      {/* ─── Right Pane (Authentication) ─────────────────── */}
+      <div className="w-full lg:w-2/5 flex flex-col justify-center items-center p-8 md:p-16 bg-white">
+        <div className="w-full max-sm:px-4">
+          <div className="lg:hidden mb-12 flex justify-center">
+            <div className="flex items-center gap-3">
+              <div className="bg-blue-600 p-2 rounded-xl">
+                <FileText className="text-white" size={24} />
+              </div>
+              <span className="text-xl font-black text-slate-900 tracking-tighter uppercase">AI PPM Analysis Platform</span>
+            </div>
+          </div>
 
-          <CardContent className="login-card-content">
+          {/* Welcome Header */}
+          <div className="mb-10 text-center lg:text-left">
+            <h2 className="text-3xl font-black text-slate-900 mb-3">Welcome back.</h2>
+            <p className="text-slate-500 font-medium">Access your institutional deal intelligence platform.</p>
+          </div>
+
+          {/* Authentication Actions */}
+          <div className="space-y-4">
             {/* Microsoft SSO button */}
             <Button
               id="btn-microsoft-signin"
-              className="login-ms-btn"
+              className="w-full flex items-center justify-center gap-4 py-6 px-6 rounded-2xl font-bold transition-all shadow-md active:scale-[0.98] disabled:opacity-70 group border bg-blue-50 border-blue-200 text-blue-600"
               variant="outline"
-              onClick={handleMicrosoftSignIn}
-              disabled={isLoading}
+              onClick={handleLogin}
+              disabled={isLoadingAuth}
             >
-              {isLoading ? (
-                <span className="login-ms-spinner" />
+              {isLoadingAuth ? (
+                <>
+                  <Spinner data-icon="inline-end" className="text-blue-600" />
+                  <span>Authenticating...</span>
+                </>
               ) : (
-                <MicrosoftLogo />
+                <>
+                  <MicrosoftLogo />
+                  <span>Sign in with Microsoft</span>
+                </>
               )}
-              <span>{isLoading ? 'Signing in…' : 'Sign in with Microsoft'}</span>
             </Button>
 
-            {/* Divider */}
-            <div className="login-divider">
-              <Separator className="login-sep" />
-              <span className="login-divider-label">ENTERPRISE ACCESS</span>
-              <Separator className="login-sep" />
+            {/* Divider Section */}
+            <div className="flex items-center gap-4 py-2">
+              <Separator className="flex-1 bg-slate-100 w-auto" />
+              <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Enterprise Access</span>
+              <Separator className="flex-1 bg-slate-100 w-auto" />
             </div>
 
-            {/* Info card */}
-            <div className="login-info-card">
-              <Info size={15} className="login-info-icon" />
-              <p className="login-info-text">
-                Use your Microsoft Entra ID credentials for single-sign-on
-                access.
-              </p>
+            {/* Info/Alert Box */}
+            <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100/50">
+              <div className="flex gap-3 items-start">
+                <AlertCircle size={18} className="text-blue-500 shrink-0 mt-0.5" />
+                <p className="text-xs text-blue-700 leading-relaxed font-medium">
+                  Use your Microsoft Entra ID credentials for single-sign-on access.
+                </p>
+              </div>
             </div>
 
-            {/* Learn more */}
-            <button className="login-learn-more" type="button">
-              <span>Learn about enterprise security</span>
-              <ChevronRight size={14} />
-            </button>
-          </CardContent>
-        </Card>
-
-        {/* Footer */}
-        <p className="login-footer">
-          © {new Date().getFullYear()} AI PPM Analysis Platform. All rights reserved.
-        </p>
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -131,7 +146,7 @@ export default function LoginPage() {
 /* Microsoft logo SVG */
 function MicrosoftLogo() {
   return (
-    <svg width="18" height="18" viewBox="0 0 21 21" fill="none" aria-label="Microsoft logo">
+    <svg className="w-5 h-5 transition-all" viewBox="0 0 21 21" fill="none" aria-label="Microsoft logo">
       <rect x="1" y="1" width="9" height="9" fill="#F25022" />
       <rect x="11" y="1" width="9" height="9" fill="#7FBA00" />
       <rect x="1" y="11" width="9" height="9" fill="#00A4EF" />
