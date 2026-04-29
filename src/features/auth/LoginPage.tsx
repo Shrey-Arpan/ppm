@@ -1,25 +1,37 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { Shield, FileText, Cpu, ChevronRight, AlertCircle, ShieldCheck } from 'lucide-react'
+import { FileText, Cpu, AlertCircle, ShieldCheck } from 'lucide-react'
 import { Spinner } from '@/components/ui/spinner'
+import { useMsal } from '@azure/msal-react';
+import { loginRequest } from '@/config/msal'
+import type { AuthenticationResult } from '@azure/msal-browser'
 
-export default function LoginPage({ onLoginSuccess }) {
+export default function LoginPage() {
   const [isLoadingAuth, setIsLoadingAuth] = useState(false)
+  const { instance } = useMsal();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setIsLoadingAuth(true)
-    // Simulate authentication delay
-    setTimeout(() => {
-      setIsLoadingAuth(false)
-      if (onLoginSuccess) {
-        onLoginSuccess()
+    try {
+      const response: AuthenticationResult = await instance.loginPopup({
+        ...loginRequest,
+        redirectUri: '/redirect.html',
+      });
+      console.log('res: ', response);
+      if (response.account) {
+        instance.setActiveAccount(response.account);
       }
-    }, 1500)
+    } catch (error) {
+      console.log("Login Failed", error);
+
+    } finally {
+      setIsLoadingAuth(false);
+    }
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col lg:flex-row overflow-hidden font-sans">
+    <div className="min-h-screen bg-white flex overflow-hidden font-sans">
       {/* ─── Left Pane (Visual & Branding) ───────────────── */}
       <div className="hidden lg:flex lg:w-3/5 relative overflow-hidden bg-slate-900">
         <div className="absolute inset-0 z-0 opacity-40">
