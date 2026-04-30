@@ -1,23 +1,12 @@
-import { useMsal } from "@azure/msal-react";
+import DocumentListing from "./document-listing/documentListing";
+import Navbar from "./nav/navbar";
 
-export default function DashboardPage({ onLogout }) {
-
-    const { instance } = useMsal();
-    const handleLogOut = () => {
-        try {
-            instance.logoutPopup()
-            if (onLogout) {
-                onLogout()
-            }
-        } catch (e) {
-            console.log("Logout Failed", e)
-        }
-    }
+export default function DashboardPage() {
 
     return (
-        <div>
-            <h1>Dashboard</h1>
-            <button onClick={handleLogOut}>Logout</button>
+         <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
+            <Navbar/>
+            <DocumentListing/>
         </div>
     )
 }

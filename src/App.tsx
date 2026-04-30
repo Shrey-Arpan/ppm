@@ -2,15 +2,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import LoginPage from '@/features/auth/LoginPage'
 import DashboardPage from './features/dashboard/dashboardPage'
 import AuthHandler from '@/features/auth/AuthHandler'
-import { useIsAuthenticated, useMsal } from '@azure/msal-react'
+import { useIsAuthenticated } from '@azure/msal-react'
 
 function App() {
   const isAuthenticated = useIsAuthenticated();
-  const { instance } = useMsal();
-
-  const handleLogout = () => {
-    instance.logoutPopup();
-  }
 
   return (
     <Router>
@@ -22,7 +17,7 @@ function App() {
         <Route path="/auth" element={<AuthHandler />} />
         <Route 
           path="/dashboard" 
-          element={isAuthenticated ? <DashboardPage onLogout={handleLogout} /> : <Navigate to="/" replace />} 
+          element={isAuthenticated ? <DashboardPage /> : <Navigate to="/" replace />} 
         />
       </Routes>
     </Router>

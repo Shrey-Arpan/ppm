@@ -5,7 +5,6 @@ import { FileText, Cpu, AlertCircle, ShieldCheck } from 'lucide-react'
 import { Spinner } from '@/components/ui/spinner'
 import { useMsal } from '@azure/msal-react';
 import { loginRequest } from '@/config/msal'
-import type { AuthenticationResult } from '@azure/msal-browser'
 
 export default function LoginPage() {
   const [isLoadingAuth, setIsLoadingAuth] = useState(false)
