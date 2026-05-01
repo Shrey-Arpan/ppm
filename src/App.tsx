@@ -1,6 +1,6 @@
-import { BrowserRouter } from 'react-router-dom'
-import AppRoutes from '@/routes/AppRoutes'
-import { Toaster } from 'sonner'
+import { BrowserRouter } from 'react-router-dom';
+import AppRoutes from '@/routes/AppRoutes';
+import { Toaster } from 'sonner';
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
       <AppRoutes />
       <Toaster />
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;

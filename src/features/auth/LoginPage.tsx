@@ -1,22 +1,22 @@
-import { useState } from 'react'
-import { Button, Separator, Spinner } from '@/components/ui'
-import { FileText, Cpu, AlertCircle, ShieldCheck } from 'lucide-react'
+import { useState } from 'react';
+import { Button, Separator, Spinner } from '@/components/ui';
+import { FileText, Cpu, AlertCircle, ShieldCheck } from 'lucide-react';
 import { useMsal } from '@azure/msal-react';
-import { loginRequest } from '@/config/msalConfig'
+import { loginRequest } from '@/config/msalConfig';
 
 export default function LoginPage() {
-  const [isLoadingAuth, setIsLoadingAuth] = useState(false)
+  const [isLoadingAuth, setIsLoadingAuth] = useState(false);
   const { instance } = useMsal();
 
   const handleLogin = async () => {
-    setIsLoadingAuth(true)
+    setIsLoadingAuth(true);
     try {
       await instance.loginRedirect(loginRequest);
     } catch (error) {
-      console.log("Login Failed", error);
+      console.log('Login Failed', error);
       setIsLoadingAuth(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-white flex overflow-hidden font-sans">
@@ -36,16 +36,21 @@ export default function LoginPage() {
             <div className="bg-blue-600 p-2.5 rounded-xl shadow-lg shadow-blue-900/20">
               <FileText className="text-white" size={28} />
             </div>
-            <span className="text-2xl font-black text-white tracking-tighter uppercase">AI PPM Analysis Platform</span>
+            <span className="text-2xl font-black text-white tracking-tighter uppercase">
+              AI PPM Analysis Platform
+            </span>
           </div>
 
           <div className="max-w-xl">
             <h1 className="text-6xl font-black text-white leading-none mb-6">
               Redefining PPM <br />
-              <span className="text-blue-500 underline decoration-4 underline-offset-8">Intelligence.</span>
+              <span className="text-blue-500 underline decoration-4 underline-offset-8">
+                Intelligence.
+              </span>
             </h1>
             <p className="text-xl text-slate-300 font-medium leading-relaxed mb-8">
-              Harness the power of AI to extract, summarize, and visualize unstructured deal data into structured formats.
+              Harness the power of AI to extract, summarize, and visualize unstructured deal data
+              into structured formats.
             </p>
 
             <div className="grid grid-cols-2 gap-8">
@@ -54,7 +59,9 @@ export default function LoginPage() {
                   <Cpu size={20} />
                 </div>
                 <div>
-                  <h4 className="text-white font-black text-sm uppercase tracking-tight">Automated Extraction</h4>
+                  <h4 className="text-white font-black text-sm uppercase tracking-tight">
+                    Automated Extraction
+                  </h4>
                 </div>
               </div>
               <div className="flex gap-4 items-start">
@@ -62,7 +69,9 @@ export default function LoginPage() {
                   <ShieldCheck size={20} />
                 </div>
                 <div>
-                  <h4 className="text-white font-bold text-sm uppercase tracking-tight">Microsoft Entra ID authenticated</h4>
+                  <h4 className="text-white font-bold text-sm uppercase tracking-tight">
+                    Microsoft Entra ID authenticated
+                  </h4>
                 </div>
               </div>
             </div>
@@ -86,14 +95,18 @@ export default function LoginPage() {
               <div className="bg-blue-600 p-2 rounded-xl">
                 <FileText className="text-white" size={24} />
               </div>
-              <span className="text-xl font-black text-slate-900 tracking-tighter uppercase">AI PPM Analysis Platform</span>
+              <span className="text-xl font-black text-slate-900 tracking-tighter uppercase">
+                AI PPM Analysis Platform
+              </span>
             </div>
           </div>
 
           {/* Welcome Header */}
           <div className="mb-10 text-center lg:text-left">
             <h2 className="text-3xl font-black text-slate-900 mb-3">Welcome back.</h2>
-            <p className="text-slate-500 font-medium">Access your institutional deal intelligence platform.</p>
+            <p className="text-slate-500 font-medium">
+              Access your institutional deal intelligence platform.
+            </p>
           </div>
 
           {/* Authentication Actions */}
@@ -122,7 +135,9 @@ export default function LoginPage() {
             {/* Divider Section */}
             <div className="flex items-center gap-4 py-2">
               <Separator className="flex-1 bg-slate-100 w-auto" />
-              <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Enterprise Access</span>
+              <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">
+                Enterprise Access
+              </span>
               <Separator className="flex-1 bg-slate-100 w-auto" />
             </div>
 
@@ -135,22 +150,26 @@ export default function LoginPage() {
                 </p>
               </div>
             </div>
-
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 /* Microsoft logo SVG */
 function MicrosoftLogo() {
   return (
-    <svg className="w-5 h-5 transition-all" viewBox="0 0 21 21" fill="none" aria-label="Microsoft logo">
+    <svg
+      className="w-5 h-5 transition-all"
+      viewBox="0 0 21 21"
+      fill="none"
+      aria-label="Microsoft logo"
+    >
       <rect x="1" y="1" width="9" height="9" fill="#F25022" />
       <rect x="11" y="1" width="9" height="9" fill="#7FBA00" />
       <rect x="1" y="11" width="9" height="9" fill="#00A4EF" />
       <rect x="11" y="11" width="9" height="9" fill="#FFB900" />
     </svg>
-  )
+  );
 }

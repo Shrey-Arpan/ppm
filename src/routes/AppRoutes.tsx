@@ -1,26 +1,25 @@
-import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
-import { useIsAuthenticated } from '@azure/msal-react'
-import LoginPage from '@/features/auth/LoginPage'
-import DashboardPage from '@/features/dashboard/dashboardPage'
-import ViewDataPage from '@/features/view-data/viewDataPage'
-import AuthHandler from '@/features/auth/AuthHandler'
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { useIsAuthenticated } from '@azure/msal-react';
+import LoginPage from '@/features/auth/LoginPage';
+import DashboardPage from '@/features/dashboard/dashboardPage';
+import ViewDataPage from '@/features/view-data/viewDataPage';
+import AuthHandler from '@/features/auth/AuthHandler';
 
 export const ROUTES = {
   LOGIN: '/',
   DASHBOARD: '/dashboard',
   VIEW_DATA: '/view-data',
-  AUTH: '/auth'
-}
-
+  AUTH: '/auth',
+};
 
 function ProtectedLayout() {
-  const isAuthenticated = useIsAuthenticated()
-  return isAuthenticated ? <Outlet /> : <Navigate to={ROUTES.LOGIN} replace />
+  const isAuthenticated = useIsAuthenticated();
+  return isAuthenticated ? <Outlet /> : <Navigate to={ROUTES.LOGIN} replace />;
 }
 
 function PublicLayout() {
-  const isAuthenticated = useIsAuthenticated()
-  return isAuthenticated ? <Navigate to={ROUTES.DASHBOARD} replace /> : <Outlet />
+  const isAuthenticated = useIsAuthenticated();
+  return isAuthenticated ? <Navigate to={ROUTES.DASHBOARD} replace /> : <Outlet />;
 }
 
 export default function AppRoutes() {
@@ -37,5 +36,5 @@ export default function AppRoutes() {
         <Route path={ROUTES.VIEW_DATA} element={<ViewDataPage />} />
       </Route>
     </Routes>
-  )
+  );
 }
