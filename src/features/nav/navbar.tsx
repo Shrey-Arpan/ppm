@@ -1,5 +1,5 @@
 import { FileText, LogOut } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui";
 import { useMsal } from "@azure/msal-react";
 
 export default function Navbar() {

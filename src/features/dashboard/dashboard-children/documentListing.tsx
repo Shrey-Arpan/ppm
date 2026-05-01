@@ -1,28 +1,43 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
+    Button,
+    Input,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
     Pagination,
     PaginationContent,
     PaginationItem,
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from "@/components/ui/pagination";
+    Modal,
+    StatusBadge
+} from "@/components/ui";
 import { MOCK_DOCUMENTS } from "@/hooks/test";
-import { AlertCircle, Building2, Calendar, CheckCircle2, ChevronRight, Clock, FileDown, FileText, RefreshCw, RotateCw, Search, Zap } from "lucide-react";
-import { useState } from "react";
-import { Modal } from "@/components/ui/modal";
+import { Calendar, ChevronRight, FileDown, FileText, RefreshCw, RotateCw, Search, Zap } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@/routes/AppRoutes";
+
+let cachedState = {
+    search: '',
+    statusFilter: 'All',
+    dateFilter: '',
+    currentPage: 1
+};
 
 export default function DocumentListing() {
 
-    const [search, setSearch] = useState('');
-    const [statusFilter, setStatusFilter] = useState('All');
-    const [dateFilter, setDateFilter] = useState('');
+    const [search, setSearch] = useState(cachedState.search);
+    const [statusFilter, setStatusFilter] = useState(cachedState.statusFilter);
+    const [dateFilter, setDateFilter] = useState(cachedState.dateFilter);
     const [documents, setDocuments] = useState(MOCK_DOCUMENTS);
-    const [viewingDoc, setViewingDoc] = useState(null);
     const [summaryDoc, setSummaryDoc] = useState(null);
-
+    const navigate = useNavigate();
+    
     // Pagination & Filtering Logic
     const filteredDocs = documents.filter(doc => {
         const matchesSearch = doc.name.toLowerCase().includes(search.toLowerCase());
@@ -32,31 +47,26 @@ export default function DocumentListing() {
     });
 
     const itemsPerPage = 5;
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(cachedState.currentPage);
+
+    useEffect(() => {
+        cachedState = {
+            search,
+            statusFilter,
+            dateFilter,
+            currentPage
+        };
+    }, [search, statusFilter, dateFilter, currentPage]);
+
     const totalPages = Math.ceil(filteredDocs.length / itemsPerPage);
     const paginatedDocs = filteredDocs.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-    const StatusBadge = ({ status }) => {
-        const styles = {
-            'Completed': 'bg-green-100 text-green-700 border-green-200',
-            'In Process': 'bg-blue-100 text-blue-700 border-blue-200',
-            'Queued': 'bg-gray-100 text-gray-700 border-gray-200',
-            'Failed': 'bg-red-100 text-red-700 border-red-200'
-        };
 
-        const icons = {
-            'Completed': <CheckCircle2 size={14} className="mr-1" />,
-            'In Process': <RefreshCw size={14} className="mr-1" />,
-            'Queued': <Clock size={14} className="mr-1" />,
-            'Failed': <AlertCircle size={14} className="mr-1" />
-        };
-
-        return (
-            <span className={`flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${styles[status]}`}>
-                {icons[status]}
-                {status}
-            </span>
-        );
-    };
+    const handleViewData = (doc) => {
+        navigate(ROUTES.VIEW_DATA, {
+            state: doc
+        })
+    }
+    
     return (
         <>
             <main className="flex-1 p-4 md:p-8 max-w-[98%] mx-auto w-full">
@@ -80,7 +90,7 @@ export default function DocumentListing() {
                                 type="date"
                                 className="h-10 pl-10 pr-4 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none shadow-sm font-bold text-xs text-gray-700"
                                 value={dateFilter}
-                            // onChange={(e) => seTableCellateFilter(e.target.value)}
+                                onChange={(e) => setDateFilter(e.target.value)}
                             />
                         </div>
 
@@ -98,6 +108,13 @@ export default function DocumentListing() {
                     </div>
 
                     <Button
+                        onClick={() => {
+                            setSearch('');
+                            setStatusFilter('All');
+                            setDateFilter('');
+                            setCurrentPage(1);
+                            cachedState = { search: '', statusFilter: 'All', dateFilter: '', currentPage: 1 };
+                        }}
                         className="h-10 flex items-center gap-2 px-5 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors shadow-sm font-bold text-gray-700 active:scale-95 text-xs"
                     >
                         <RefreshCw size={18} />
@@ -144,7 +161,7 @@ export default function DocumentListing() {
                                                                 <Zap size={14} fill="currentColor" /> Generate Deal Summary
                                                             </Button>
                                                             <Button
-                                                                onClick={() => setViewingDoc(doc)}
+                                                                onClick={() => handleViewData(doc)}
                                                                 className="text-slate-400 hover:text-blue-600 px-3 py-2 rounded-xl text-[10px] font-black transition-all flex items-center gap-1 uppercase"
                                                             >
                                                                 View Data
@@ -246,14 +263,6 @@ export default function DocumentListing() {
                 </div>
             </Modal>
 
-            <footer className="py-8 text-center">
-                <div className="flex items-center justify-center gap-6 mb-4 opacity-30 grayscale pointer-events-none">
-                    <Building2 size={20} />
-                    <div className="w-1 h-1 rounded-full bg-slate-400"></div>
-                    <span className="text-[10px] font-black tracking-widest uppercase">Institutional Grade Platform</span>
-                </div>
-                <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest uppercase">&copy; {new Date().getFullYear()} AI PPM Analysis Platform &bull; Secure Enterprise Environment</p>
-            </footer>
         </>
     );
 }

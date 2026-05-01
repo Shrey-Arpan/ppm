@@ -1,10 +1,8 @@
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
+import { Button, Separator, Spinner } from '@/components/ui'
 import { FileText, Cpu, AlertCircle, ShieldCheck } from 'lucide-react'
-import { Spinner } from '@/components/ui/spinner'
 import { useMsal } from '@azure/msal-react';
-import { loginRequest } from '@/config/msal'
+import { loginRequest } from '@/config/msalConfig'
 
 export default function LoginPage() {
   const [isLoadingAuth, setIsLoadingAuth] = useState(false)
