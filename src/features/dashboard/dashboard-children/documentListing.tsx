@@ -42,8 +42,8 @@ export default function DocumentListing() {
   const [search, setSearch] = useState(cachedState.search);
   const [statusFilter, setStatusFilter] = useState(cachedState.statusFilter);
   const [dateFilter, setDateFilter] = useState(cachedState.dateFilter);
-  const [documents, setDocuments] = useState(MOCK_DOCUMENTS);
-  const [summaryDoc, setSummaryDoc] = useState(null);
+  const [documents] = useState(MOCK_DOCUMENTS);
+  const [summaryDoc, setSummaryDoc] = useState<any>(null);
   const navigate = useNavigate();
 
   // Pagination & Filtering Logic
@@ -72,7 +72,7 @@ export default function DocumentListing() {
     currentPage * itemsPerPage
   );
 
-  const handleViewData = (doc) => {
+  const handleViewData = (doc: any) => {
     navigate(ROUTES.VIEW_DATA, {
       state: doc,
     });

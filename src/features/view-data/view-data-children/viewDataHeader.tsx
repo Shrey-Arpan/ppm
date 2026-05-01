@@ -12,7 +12,7 @@ export default function ViewDataHeader({
 }: {
   document: any;
   onBack: () => void;
-  exportData: ViewDataApiResponse;
+  exportData: ViewDataApiResponse | null;
 }) {
   const [isExporting, setIsExporting] = useState(false);
 
@@ -23,7 +23,7 @@ export default function ViewDataHeader({
       const headers = ['Section Name', 'Field Name', 'Extracted Value', 'Source Reference'];
       const rows: (string | number | undefined | null)[][] = [];
 
-      exportData.sections?.forEach((section) => {
+      exportData?.sections?.forEach((section) => {
         const sectionName = section.section_name || 'Extracted Section';
         section.fields?.forEach((field) => {
           const fieldName = field.field_name || (field as any).name || 'N/A';
