@@ -24,8 +24,21 @@ Make sure you have Node.js installed.
 
 Start the development server:
 
+1. add the env vairables in .env file
 ```bash
 npm run dev
+```
+
+### Check Formatting
+
+```bash
+npm run format:check
+```
+
+### Format Code
+
+```bash
+npm run format
 ```
 
 ### Production Build
