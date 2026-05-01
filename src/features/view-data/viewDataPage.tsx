@@ -12,7 +12,8 @@ export default function ViewDataPage() {
     const location = useLocation();
     const navigate = useNavigate();
     const document = location.state;
-    const url: string = ''
+    const AZURE_CODE = import.meta.env.VITE_AZURE_CODE;
+    const url: string = `/azure-api/extracted-fields?code=${AZURE_CODE}==&document_name=PPM%20-%20ERP%201031%20Industrial%20Portfolio%20DST%20%2810.18.23%29%20%281%29.pdf`
     const { data, isLoading, error } = useFetch<ViewDataApiResponse>(url);
     const onBack = () => {
         navigate(-1);
