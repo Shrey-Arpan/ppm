@@ -12,4 +12,13 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    proxy: {
+      '/azure-api': {
+        target: 'https://fnppmdocumentsextractor-gvhkf3efgua7efb6.eastus-01.azurewebsites.net',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/azure-api/, '/api'),
+      },
+    },
+  },
 })

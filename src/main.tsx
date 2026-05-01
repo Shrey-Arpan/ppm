@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { EventType, PublicClientApplication } from '@azure/msal-browser';
-import { msalConfig } from './config/msal.ts';
+import { msalConfig } from './config/msalConfig.ts';
 import { MsalProvider } from '@azure/msal-react';
 
 const msalInstance = new PublicClientApplication(msalConfig);
