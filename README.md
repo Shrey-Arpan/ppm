@@ -9,6 +9,7 @@ Make sure you have Node.js installed.
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone <repository-url>
    cd ppm
@@ -22,6 +23,7 @@ Make sure you have Node.js installed.
 ### Development
 
 Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -29,6 +31,7 @@ npm run dev
 ### Production Build
 
 Build the production-ready application:
+
 ```bash
 npm run build
 ```

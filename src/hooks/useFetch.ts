@@ -19,7 +19,7 @@ export const useFetch = <T>(url: string) => {
           throw new Error(`Error: ${response.status}`);
         }
 
-        const result: T = await response.json(); 
+        const result: T = await response.json();
         if (!controller.signal.aborted) {
           setData(result);
           setIsLoading(false);

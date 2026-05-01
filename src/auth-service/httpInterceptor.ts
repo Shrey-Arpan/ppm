@@ -5,8 +5,8 @@ export const httpInterceptor = async (
   const headers = new Headers(init?.headers);
 
   // Add default headers here
-  if (!headers.has("Content-Type")) {
-    headers.set("Content-Type", "application/json");
+  if (!headers.has('Content-Type')) {
+    headers.set('Content-Type', 'application/json');
   }
 
   // Example: Retrieve token from storage and add Authorization header
@@ -32,15 +32,15 @@ export const httpInterceptor = async (
       // if (response.status === 401) {
       //   // Redirect to login or refresh token
       // }
-      
+
       console.error(`HTTP Error: ${response.status} ${response.statusText}`);
     }
 
     return response;
   } catch (error: any) {
     // Only log if it's not an AbortError (which is expected during unmounts/Strict Mode)
-    if (error.name !== "AbortError") {
-      console.error("Network or fetch error:", error);
+    if (error.name !== 'AbortError') {
+      console.error('Network or fetch error:', error);
     }
     throw error;
   }

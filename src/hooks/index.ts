@@ -1,1 +1,1 @@
-export {useFetch} from "@/hooks/useFetch";
+export { useFetch } from '@/hooks/useFetch';
