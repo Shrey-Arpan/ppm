@@ -32,7 +32,7 @@ export default function ViewDataPage() {
       <div className="flex flex-1 overflow-hidden">
         {error ? (
           <div className="flex flex-col items-center justify-center w-full h-full">
-            <div className="text-red-500 bg-red-50/50 p-6 rounded-2xl border border-red-100 max-w-lg mx-auto flex-1">
+            <div className="text-red-500 bg-red-50/50 p-6 rounded-2xl border border-red-100 flex flex-col justify-center items-center flex-1">
               <p className="font-bold text-lg mb-1">Error loading data</p>
               <p className="text-sm text-red-600">{error}</p>
             </div>

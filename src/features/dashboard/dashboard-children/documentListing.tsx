@@ -254,7 +254,7 @@ export default function DocumentListing() {
                     <PaginationLink
                       isActive={currentPage === i + 1}
                       onClick={() => setCurrentPage(i + 1)}
-                      className="cursor-pointer"
+                      className={currentPage === i + 1 ? 'cursor-pointer bg-blue-600 text-white shadow-lg shadow-blue-200' : 'cursor-pointer bg-white border border-gray-200 text-gray-400 hover:border-gray-300'}
                     >
                       {i + 1}
                     </PaginationLink>
