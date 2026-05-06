@@ -1,14 +1,14 @@
 import { FileText, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui';
-import { useMsal } from '@azure/msal-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Navbar() {
-  const { instance } = useMsal();
-  const activeAccount = instance.getActiveAccount();
-  const userName = activeAccount?.name || 'anonymous user';
+  const { user, logout } = useAuth();
+  const userName = user?.name || 'Authorized User';
+  const usernameEmail = user?.preferred_username || '';
 
   const handleLogout = () => {
-    instance.logoutRedirect();
+    logout();
   };
 
   return (
@@ -26,7 +26,7 @@ export default function Navbar() {
           <div className="text-right hidden sm:block">
             <p className="text-xs font-semibold text-gray-900">{userName}</p>
             <p className="text-[10px] text-gray-500 font-medium">
-              {activeAccount?.username || 'Authorized User'}
+              {usernameEmail}
             </p>
           </div>
           <Button
