@@ -1,17 +1,23 @@
 import { useState } from 'react';
 import { Button, Separator, Spinner } from '@/components/ui';
 import { FileText, Cpu, AlertCircle, ShieldCheck } from 'lucide-react';
-import { useMsal } from '@azure/msal-react';
-import { loginRequest } from '@/config/msalConfig';
+import { ENTRA_AUTH_API } from '@/apis';
 
 export default function LoginPage() {
   const [isLoadingAuth, setIsLoadingAuth] = useState(false);
-  const { instance } = useMsal();
 
   const handleLogin = async () => {
     setIsLoadingAuth(true);
     try {
-      await instance.loginRedirect(loginRequest);
+      const response = await fetch(`${ENTRA_AUTH_API}?mode=json`);
+      if (!response.ok) throw new Error('Failed to fetch auth URL');
+      const data = await response.json();
+      
+      if (data.authenticate_url) {
+        window.location.href = data.authenticate_url;
+      } else {
+        throw new Error('Authentication URL not found in response');
+      }
     } catch (error) {
       console.log('Login Failed', error);
       setIsLoadingAuth(false);

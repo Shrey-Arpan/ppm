@@ -9,11 +9,8 @@ export const httpInterceptor = async (
     headers.set('Content-Type', 'application/json');
   }
 
-  // Example auth
-  // const token = localStorage.getItem('token');
-  // if (token) {
-  //   headers.set('Authorization', `Bearer ${token}`);
-  // }
+  // Note: Backend is expected to use HttpOnly cookies for session management.
+  // Browser will automatically attach cookies to requests via Vite proxy.
 
   const modifiedInit: RequestInit = {
     ...init,
