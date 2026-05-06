@@ -14,17 +14,17 @@ import { Skeleton } from '@/components/ui/skeleton';
 import type { Section, ViewDataApiResponse } from '@/types';
 
 export default function ViewDataSideBar({
-  document,
+  data,
   activeSectionIndex,
   onSectionClick,
   isLoading,
 }: {
-  document?: ViewDataApiResponse | null;
+  data?: ViewDataApiResponse | null;
   activeSectionIndex: number;
   onSectionClick: (index: number) => void;
   isLoading?: boolean;
 }) {
-  const sections = document?.sections || [];
+  const sections = data?.sections || [];
 
   return (
     <SidebarProvider className="w-auto h-full min-h-0 flex-none">

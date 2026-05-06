@@ -1,10 +1,11 @@
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { useIsAuthenticated } from '@azure/msal-react';
+import { useAuth } from '@/contexts/AuthContext';
 import LoginPage from '@/features/auth/LoginPage';
 import DashboardPage from '@/features/dashboard/dashboardPage';
 import ViewDataPage from '@/features/view-data/viewDataPage';
 import AuthHandler from '@/features/auth/AuthHandler';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const ROUTES = {
   LOGIN: '/',
   DASHBOARD: '/dashboard',
@@ -13,12 +14,12 @@ export const ROUTES = {
 };
 
 function ProtectedLayout() {
-  const isAuthenticated = useIsAuthenticated();
+  const { isAuthenticated } = useAuth();
   return isAuthenticated ? <Outlet /> : <Navigate to={ROUTES.LOGIN} replace />;
 }
 
 function PublicLayout() {
-  const isAuthenticated = useIsAuthenticated();
+  const { isAuthenticated } = useAuth();
   return isAuthenticated ? <Navigate to={ROUTES.DASHBOARD} replace /> : <Outlet />;
 }
 

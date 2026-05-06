@@ -25,6 +25,7 @@ Make sure you have Node.js installed.
 Start the development server:
 
 1. add the env vairables in .env file
+
 ```bash
 npm run dev
 ```

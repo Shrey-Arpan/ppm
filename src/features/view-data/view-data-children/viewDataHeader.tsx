@@ -1,7 +1,7 @@
 import { Button, StatusBadge } from '@/components/ui';
 import { ArrowLeft, Calendar, Table, Loader2 } from 'lucide-react';
 import { useState } from 'react';
-import type { ViewDataApiResponse } from '@/types';
+import type { DashboardDocuments, ViewDataApiResponse } from '@/types';
 import { downloadExcel } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -10,7 +10,7 @@ export default function ViewDataHeader({
   onBack,
   exportData,
 }: {
-  document: any;
+  document: DashboardDocuments;
   onBack: () => void;
   exportData: ViewDataApiResponse | null;
 }) {
@@ -26,11 +26,10 @@ export default function ViewDataHeader({
       exportData?.sections?.forEach((section) => {
         const sectionName = section.section_name || 'Extracted Section';
         section.fields?.forEach((field) => {
-          const fieldName = field.field_name || (field as any).name || 'N/A';
-          const fieldValue = field.field_value || (field as any).value || 'N/A';
+          const fieldName = field.field_name || 'N/A';
+          const fieldValue = field.field_value || 'N/A';
           const fieldSource =
             field.citation_text ||
-            (field as any).source ||
             (field.citation_pages?.length
               ? `Pages: ${field.citation_pages.join(', ')}`
               : 'No direct citation');
@@ -39,7 +38,7 @@ export default function ViewDataHeader({
         });
       });
 
-      downloadExcel(`${document.name || 'document'}_export`, headers, rows);
+      downloadExcel(`${document.document_name || 'document'}_export`, headers, rows);
       toast.success('Data exported successfully.', { position: 'top-right' });
     } catch (error) {
       console.error('Export failed:', error);
@@ -70,12 +69,13 @@ export default function ViewDataHeader({
         </Button>
       </div>
       <div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-1">{document.name}</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-1">{document.document_name}</h2>
         <div className="flex items-center gap-4 text-sm text-gray-500 font-medium">
           <span className="flex items-center">
-            <Calendar size={14} className="mr-1 text-gray-400" /> {document.date}
+            <Calendar size={14} className="mr-1 text-gray-400" />{' '}
+            {document.ingested_at_utc.split('T')[0]}
           </span>
-          <StatusBadge status={document.status} />
+          <StatusBadge status={document.extraction_status} />
           <span className="text-gray-300">|</span>
           <span className="text-gray-600">PPM Structured Data Extraction</span>
         </div>

@@ -1,12 +1,17 @@
 import DocumentListing from './dashboard-children/documentListing';
 import Navbar from '../nav/navbar';
 import { Building2 } from 'lucide-react';
+import { DASHBOARD_LIST_API } from '@/apis';
+import { useFetch } from '@/hooks';
+import type { DashboardListApiResponse } from '@/types';
 
 export default function DashboardPage() {
+  const dashboardListUrl = DASHBOARD_LIST_API;
+  const { data, isLoading, error, refetch } = useFetch<DashboardListApiResponse>(dashboardListUrl);
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
       <Navbar />
-      <DocumentListing />
+      <DocumentListing data={data} isLoading={isLoading} error={error} onRefresh={refetch} />
       <footer className="py-8 text-center">
         <div className="flex items-center justify-center gap-6 mb-4 opacity-30 grayscale pointer-events-none">
           <Building2 size={20} />
