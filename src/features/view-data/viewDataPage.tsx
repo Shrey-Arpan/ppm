@@ -4,16 +4,17 @@ import ViewDataHeader from './view-data-children/viewDataHeader';
 import ViewDataSideBar from './view-data-children/viewDataSideBar';
 import ViewDataMain from './view-data-children/viewDataMain';
 import { useFetch } from '@/hooks';
-import type { ViewDataApiResponse } from '@/types';
+import type { DashboardDocuments, ViewDataApiResponse } from '@/types';
 import { useState } from 'react';
+import { GET_DOCUMENT_DATA } from '@/apis';
 
 export default function ViewDataPage() {
   const [activeSectionIndex, setActiveSectionIndex] = useState<number>(0);
   const location = useLocation();
   const navigate = useNavigate();
-  const document = location.state;
-  const AZURE_CODE = import.meta.env.VITE_AZURE_CODE;
-  const url: string = `/azure-api/extracted-fields?code=${AZURE_CODE}==&document_name=PPM%20-%20ERP%201031%20Industrial%20Portfolio%20DST%20%2810.18.23%29%20%281%29.pdf`;
+  const document: DashboardDocuments = location.state;
+  const getViewDataUrl: string = GET_DOCUMENT_DATA;
+  const url: string = `${getViewDataUrl}&document_name=${encodeURIComponent(document.document_name)}`;
   const { data, isLoading, error } = useFetch<ViewDataApiResponse>(url);
   const onBack = () => {
     navigate(-1);
@@ -40,7 +41,7 @@ export default function ViewDataPage() {
         ) : (
           <>
             <ViewDataSideBar
-              document={data}
+              data={data}
               activeSectionIndex={activeSectionIndex}
               onSectionClick={toggleSectionExpansion}
               isLoading={isLoading}

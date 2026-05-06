@@ -5,6 +5,7 @@ import DashboardPage from '@/features/dashboard/dashboardPage';
 import ViewDataPage from '@/features/view-data/viewDataPage';
 import AuthHandler from '@/features/auth/AuthHandler';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const ROUTES = {
   LOGIN: '/',
   DASHBOARD: '/dashboard',

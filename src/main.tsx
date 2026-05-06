@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
-import { EventType, PublicClientApplication } from '@azure/msal-browser';
+import { EventType, PublicClientApplication, type AccountInfo } from '@azure/msal-browser';
 import { msalConfig } from './config/msalConfig.ts';
 import { MsalProvider } from '@azure/msal-react';
 
@@ -27,8 +27,9 @@ msalInstance
 
     msalInstance.addEventCallback((event) => {
       if (event.eventType === EventType.LOGIN_SUCCESS && event.payload) {
-        const payload = event.payload as any;
-        msalInstance.setActiveAccount(payload.account);
+        console.log(event.payload)
+        const payload = event.payload;
+        msalInstance.setActiveAccount(payload as AccountInfo);
       }
     });
 

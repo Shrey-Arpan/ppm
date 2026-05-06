@@ -31,7 +31,7 @@ export default function ViewDataMain({
 
   const sectionName = isLoading
     ? ''
-    : activeSection?.section_name || (activeSection as any)?.title || 'Extracted Section';
+    : activeSection?.section_name || 'Extracted Section';
   const fields = isLoading ? [] : activeSection?.fields || [];
 
   return (
@@ -55,7 +55,7 @@ export default function ViewDataMain({
           </div>
 
           <div className="overflow-x-auto">
-            <Table className="w-full text-sm text-left">
+            <Table className="w-full text-sm text-left table-fixed">
               <TableHeader className="bg-gray-50/80 text-gray-500 uppercase text-[11px] font-bold tracking-wider">
                 <TableRow>
                   {isLoading ? (
@@ -66,15 +66,9 @@ export default function ViewDataMain({
                     </>
                   ) : (
                     <>
-                      <TableHead className="px-8 py-4 w-1/4 h-auto font-bold text-gray-500">
-                        Field Name
-                      </TableHead>
-                      <TableHead className="px-8 py-4 w-1/2 h-auto font-bold text-gray-500">
-                        Extracted Value
-                      </TableHead>
-                      <TableHead className="px-8 py-4 h-auto font-bold text-gray-500">
-                        Source Reference
-                      </TableHead>
+                      <TableHead className="px-8 py-4 w-1/4">Field Name</TableHead>
+                      <TableHead className="px-8 py-4 w-1/2">Extracted Value</TableHead>
+                      <TableHead className="px-8 py-4">Source Reference</TableHead>
                     </>
                   )}
                 </TableRow>
@@ -97,21 +91,20 @@ export default function ViewDataMain({
                       </TableRow>
                     ))
                   : fields.map((field: Field, idx: number) => {
-                      const fieldName = field.field_name || (field as any).name || 'N/A';
-                      const fieldValue = field.field_value || (field as any).value;
+                      const fieldName = field.field_name || 'N/A';
+                      const fieldValue = field.field_value;
                       const fieldSource =
                         field.citation_text ||
-                        (field as any).source ||
                         (field.citation_pages?.length
                           ? `Pages: ${field.citation_pages.join(', ')}`
-                          : 'No direct citation');
+                          : 'NA');
 
                       return (
                         <TableRow
                           key={idx}
                           className="hover:bg-blue-50/30 transition-colors group border-b border-gray-100"
                         >
-                          <TableCell className="px-8 py-5 font-bold text-gray-700 whitespace-nowrap">
+                          <TableCell className="px-8 py-5 font-bold text-gray-700 ">
                             {fieldName}
                           </TableCell>
                           <TableCell className="px-8 py-5 text-gray-900 font-medium leading-relaxed">
@@ -120,20 +113,26 @@ export default function ViewDataMain({
                             )}
                           </TableCell>
                           <TableCell className="px-8 py-5 text-gray-500 italic whitespace-nowrap text-xs">
-                            <div className="flex flex-col gap-1">
-                              <div className="flex items-center gap-1.5 font-semibold text-gray-600">
-                                <ExternalLink
-                                  size={12}
-                                  className="text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                                />
-                                {fieldSource}
+                            {fieldSource !== 'NA' ? (
+                              <div className="flex flex-col gap-1">
+                                <div className="flex items-center gap-1.5 font-semibold text-gray-600 capitalize">
+                                  <div className="w-4">
+                                    <ExternalLink
+                                      size={12}
+                                      className="text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                                    />
+                                  </div>
+                                  <div>{fieldSource}</div>
+                                </div>
+                                {/* Short Description Added Below Page/Section */}
+                                <p className="text-[10px] text-gray-400 font-medium leading-tight max-w-[200px] overflow-hidden text-ellipsis">
+                                  Extracted from primary disclosure text in the identified document
+                                  segment.
+                                </p>
                               </div>
-                              {/* Short Description Added Below Page/Section */}
-                              <p className="text-[10px] text-gray-400 font-medium leading-tight ">
-                                Extracted from primary disclosure text in the identified document
-                                segment.
-                              </p>
-                            </div>
+                            ) : (
+                              <div className="text-gray-400 font-normal">No direct citation</div>
+                            )}
                           </TableCell>
                         </TableRow>
                       );

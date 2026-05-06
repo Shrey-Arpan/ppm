@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { httpInterceptor } from '@/auth-service/httpInterceptor';
+import { httpInterceptor } from '@/http-service/httpInterceptor';
 
 export const useFetch = <T>(url: string) => {
   const [data, setData] = useState<T | null>(null);
@@ -15,16 +15,12 @@ export const useFetch = <T>(url: string) => {
       try {
         const response = await httpInterceptor(url, { signal: controller.signal });
 
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
-        }
-
         const result: T = await response.json();
         if (!controller.signal.aborted) {
           setData(result);
           setIsLoading(false);
         }
-      } catch (err: any) {
+      } catch (err) {
         if (!controller.signal.aborted && err.name !== 'AbortError') {
           setError(err.message);
           setIsLoading(false);
