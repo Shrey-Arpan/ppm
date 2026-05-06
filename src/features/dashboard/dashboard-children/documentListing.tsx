@@ -46,10 +46,12 @@ export default function DocumentListing({
   data,
   isLoading,
   error,
+  onRefresh,
 }: {
-  data: DashboardListApiResponse;
+  data: DashboardListApiResponse | null;
   isLoading: boolean;
-  error: string;
+  error: string | null;
+  onRefresh: () => void;
 }) {
   const [search, setSearch] = useState(cachedState.search);
   const [statusFilter, setStatusFilter] = useState(cachedState.statusFilter);
@@ -156,6 +158,7 @@ export default function DocumentListing({
               setDateFilter('');
               setCurrentPage(1);
               cachedState = { search: '', statusFilter: 'All', dateFilter: '', currentPage: 1 };
+              onRefresh();
             }}
             className="h-10 flex items-center gap-2 px-5 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors shadow-sm font-bold text-gray-700 active:scale-95 text-xs"
           >
@@ -345,7 +348,7 @@ export default function DocumentListing({
       {/* Summary Modal */}
       <Modal
         isOpen={!!summaryDoc}
-        onClose={() => setSummaryDoc(null)}
+        onClose={() => setSummaryDoc('')}
         title={
           <div className="flex items-center gap-3">
             <div className="bg-blue-600 p-2 rounded-lg shrink-0">
