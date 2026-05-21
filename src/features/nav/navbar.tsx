@@ -33,7 +33,7 @@ export default function Navbar() {
             variant="ghost"
             size="icon"
             onClick={handleLogout}
-            className="text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
+            className="rounded-full"
           >
             <LogOut size={20} />
           </Button>

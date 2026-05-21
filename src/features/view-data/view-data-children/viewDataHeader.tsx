@@ -53,14 +53,14 @@ export default function ViewDataHeader({
       <div className="flex justify-between items-start mb-4">
         <Button
           variant="ghost"
-          className="p-0 h-auto font-medium text-blue-600 hover:text-blue-800 hover:bg-transparent transition-colors group"
+          className="p-0 h-auto font-medium group"
           onClick={onBack}
         >
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
           Back to Document Listing
         </Button>
         <Button
-          className="bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold shadow-sm flex items-center gap-2"
+          className="rounded-lg font-semibold flex items-center gap-2"
           onClick={handleExportExcel}
           disabled={isExporting}
         >

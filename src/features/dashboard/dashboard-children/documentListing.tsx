@@ -119,9 +119,9 @@ export default function DocumentListing({
               <Input
                 type="text"
                 placeholder="Search Document Name"
-                className="w-full h-10 pl-10 pr-4 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all shadow-sm font-medium text-xs"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                className="h-10 pl-10 pr-4 rounded-xl shadow-sm font-bold text-xs w-full md:w-[260px]"
               />
             </div>
 
@@ -160,7 +160,8 @@ export default function DocumentListing({
               cachedState = { search: '', statusFilter: 'All', dateFilter: '', currentPage: 1 };
               onRefresh();
             }}
-            className="h-10 flex items-center gap-2 px-5 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors shadow-sm font-bold text-gray-700 active:scale-95 text-xs"
+            variant="outline"
+            className="px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 text-sm justify-center md:justify-start"
           >
             <RefreshCw size={18} />
             Refresh
@@ -175,56 +176,53 @@ export default function DocumentListing({
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <Table className="w-full text-left">
-                <TableHeader className="bg-gray-50/50 border-b border-gray-100">
+              <Table className="w-full text-sm text-left table-fixed">
+                <TableHeader className="uppercase text-[11px] font-bold tracking-wider">
                   <TableRow>
-                    <TableHead className="px-6 py-4 font-black text-gray-900 text-[10px] uppercase tracking-widest">
+                    <TableHead className="px-6 py-4 w-[40%]">
                       Document Name
                     </TableHead>
-                    <TableHead className="px-6 py-4 font-black text-gray-900 text-[10px] uppercase tracking-widest">
+                    <TableHead className="px-6 py-4 w-[20%]">
                       Ingested Date
                     </TableHead>
-                    <TableHead className="px-6 py-4 font-black text-gray-900 text-[10px] uppercase tracking-widest">
+                    <TableHead className="px-6 py-4 w-[15%]">
                       Extraction Status
                     </TableHead>
-                    <TableHead className="px-6 py-4 font-black text-gray-900 text-[10px] uppercase tracking-widest text-right">
+                    <TableHead className="px-6 py-4 text-right w-[25%]">
                       Actions
                     </TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody className="divide-y divide-gray-100">
+                <TableBody>
                   {isLoading ? (
                     [...Array(itemsPerPage)].map((_, index) => (
-                      <TableRow key={index} className="hover:bg-blue-50/20 transition-colors group">
+                      <TableRow key={index} className="animate-pulse">
                         <TableCell className="px-6 py-5">
                           <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center group-hover:bg-white group-hover:shadow-sm transition-all animate-pulse" />
-                            <Skeleton className="h-4 w-40 bg-gray-200/60 rounded-md" />
+                            <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center transition-all animate-pulse" />
+                            <Skeleton className="h-4 w-40 rounded-md" />
                           </div>
                         </TableCell>
                         <TableCell className="px-6 py-5">
-                          <Skeleton className="h-4 w-24 bg-gray-200/60 rounded-md" />
+                          <Skeleton className="h-4 w-24 rounded-md" />
                         </TableCell>
                         <TableCell className="px-6 py-5">
-                          <Skeleton className="h-6 w-20 rounded-full bg-gray-200/60" />
+                          <Skeleton className="h-6 w-20 rounded-full" />
                         </TableCell>
                         <TableCell className="px-6 py-5 text-right">
                           <div className="flex items-center justify-end gap-3">
-                            <Skeleton className="h-8 w-32 rounded-xl bg-gray-200/60" />
-                            <Skeleton className="h-8 w-20 rounded-xl bg-gray-200/60" />
+                            <Skeleton className="h-8 w-32 rounded-xl" />
+                            <Skeleton className="h-8 w-20 rounded-xl" />
                           </div>
                         </TableCell>
                       </TableRow>
                     ))
                   ) : paginatedDocs && paginatedDocs.length > 0 ? (
                     paginatedDocs.map((doc) => (
-                      <TableRow
-                        key={doc.document_name}
-                        className="hover:bg-blue-50/20 transition-colors group"
-                      >
+                      <TableRow key={doc.document_name} className="group">
                         <TableCell className="px-6 py-5">
                           <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center group-hover:bg-white group-hover:shadow-sm transition-all">
+                            <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center transition-all">
                               <FileText
                                 className="text-gray-400 group-hover:text-blue-500 transition-colors"
                                 size={20}
@@ -233,7 +231,7 @@ export default function DocumentListing({
                             <span className="font-bold text-slate-800">{doc.document_name}</span>
                           </div>
                         </TableCell>
-                        <TableCell className="px-6 py-5 text-sm text-gray-500 font-medium">
+                        <TableCell className="px-6 py-5 text-sm font-medium">
                           {doc.ingested_at_utc.split('T')[0]}
                         </TableCell>
                         <TableCell className="px-6 py-5">
@@ -245,13 +243,15 @@ export default function DocumentListing({
                               <>
                                 <Button
                                   onClick={() => setSummaryDoc('')}
-                                  className="bg-blue-50 text-blue-700 hover:bg-blue-100 px-4 py-2 rounded-xl text-[10px] font-black transition-all flex items-center gap-1.5 border border-blue-100 uppercase"
+                                  variant="secondary"
+                                  className="px-4 py-2 rounded-xl text-[10px] font-black flex items-center gap-1.5 uppercase"
                                 >
                                   <Zap size={14} fill="currentColor" /> Generate Deal Summary
                                 </Button>
                                 <Button
                                   onClick={() => handleViewData(doc)}
-                                  className="text-slate-400 hover:text-blue-600 px-3 py-2 rounded-xl text-[10px] font-black transition-all flex items-center gap-1 uppercase"
+                                  variant="ghost"
+                                  className="px-3 py-2 rounded-xl text-[10px] font-black flex items-center gap-1 uppercase"
                                 >
                                   View Data
                                   <ChevronRight size={14} />
@@ -261,13 +261,16 @@ export default function DocumentListing({
                               <Button
                                onClick={()=>handleRetry(doc.document_name)}  
                                disabled={isRetrying}
-                               className="bg-red-50 text-red-600 hover:bg-red-100 px-4 py-2 rounded-xl text-[10px] font-black transition-all flex items-center gap-1.5 border border-red-100 uppercase disabled:opacity-50">
+                               variant="outline"
+                               className="px-4 py-2 rounded-xl text-[10px] font-black flex items-center gap-1.5 uppercase disabled:opacity-50"
+                              >
                                 <RotateCw size={14} className={isRetrying ? 'animate-spin' : ''} /> {isRetrying ? 'Retrying...' : 'Retry'}
                               </Button>
                             ) : (
                               <Button
                                 disabled
-                                className="text-slate-300 px-3 py-2 rounded-xl text-[10px] font-black flex items-center gap-1 cursor-not-allowed uppercase"
+                                variant="ghost"
+                                className="px-3 py-2 rounded-xl text-[10px] font-black flex items-center gap-1 cursor-not-allowed uppercase"
                               >
                                 View Data
                                 <ChevronRight size={14} />
@@ -318,11 +321,7 @@ export default function DocumentListing({
                       <PaginationLink
                         isActive={currentPage === i + 1}
                         onClick={() => setCurrentPage(i + 1)}
-                        className={
-                          currentPage === i + 1
-                            ? 'cursor-pointer bg-blue-600 text-white shadow-lg shadow-blue-200'
-                            : 'cursor-pointer bg-white border border-gray-200 text-gray-400 hover:border-gray-300'
-                        }
+                        className="cursor-pointer"
                       >
                         {i + 1}
                       </PaginationLink>
@@ -361,7 +360,7 @@ export default function DocumentListing({
           </div>
         }
         footer={
-          <Button className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md disabled:opacity-50">
+          <Button className="flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold disabled:opacity-50">
             <FileDown size={18} /> Export PDF
           </Button>
         }

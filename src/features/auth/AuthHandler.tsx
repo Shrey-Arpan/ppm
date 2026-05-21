@@ -149,7 +149,7 @@ const AuthHandler = () => {
               <div className="relative mb-6">
                 <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-2xl animate-pulse" />
                 <div className="relative p-5 bg-white rounded-full shadow-sm border border-blue-100">
-                  <Spinner className="w-10 h-10 text-blue-600 stroke-[2.5]" />
+                  <Spinner className="w-10 h-10" />
                 </div>
               </div>
               <h2 className="text-2xl font-bold text-slate-800 tracking-tight">
@@ -178,7 +178,7 @@ const AuthHandler = () => {
                       ) : isActive ? (
                         <div className="flex items-center justify-center">
                           <div className="absolute w-4 h-4 bg-blue-500/20 rounded-full animate-ping" />
-                          <Spinner className="w-5 h-5 text-blue-600" />
+                          <Spinner className="w-5 h-5" />
                         </div>
                       ) : (
                         <Circle className="w-6 h-6 text-slate-300" />
